@@ -10,6 +10,13 @@
     --font-family-base: 'Noto Sans JP', sans-serif;
     --font-family-heading: 'Poppins', sans-serif;
     --header-height: 70px;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.5rem;
+    --font-size-xl: 2.5rem;
+    --font-size-hero: 3.5rem;
+    --btn-radius: 50px;
+    --btn-padding: 12px 30px;
+    --box-radius: 10px;
 }
 
 *, *::before, *::after {
@@ -27,7 +34,21 @@ body {
     font-family: var(--font-family-base);
     color: var(--text-color);
     line-height: 1.7;
-    background-color: var(--bg-color);
+    background: linear-gradient(135deg, #f8fafc 0%, #e3e8f0 100%);
+    font-size: var(--font-size-base);
+    min-height: 100vh;
+    position: relative;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    background: url('data:image/svg+xml;utf8,<svg width="100%25" height="100%25" xmlns="http://www.w3.org/2000/svg"><rect width="100%25" height="100%25" fill="none"/><g opacity="0.04"><circle cx="60" cy="60" r="40" fill="%23007bff"/><circle cx="300" cy="200" r="60" fill="%23ff7f50"/><rect x="500" y="100" width="120" height="120" rx="30" fill="%23007bff"/><rect x="900" y="400" width="80" height="80" rx="20" fill="%23ff7f50"/></g></svg>');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 img {
@@ -58,7 +79,7 @@ a:hover {
 
 .section-title {
     font-family: var(--font-family-heading);
-    font-size: 2.5rem;
+    font-size: var(--font-size-xl);
     text-align: center;
     margin-bottom: 60px;
     line-height: 1.4;
@@ -85,13 +106,14 @@ a:hover {
 /* --- ボタン --- */
 .btn {
     display: inline-block;
-    padding: 12px 30px;
-    border-radius: 50px;
+    padding: var(--btn-padding);
+    border-radius: var(--btn-radius);
     font-weight: bold;
     text-align: center;
     transition: all 0.3s;
     border: 2px solid transparent;
     cursor: pointer;
+    font-size: var(--font-size-base);
 }
 
 .btn-primary {
@@ -218,14 +240,18 @@ a:hover {
     z-index: 2;
     max-width: 800px;
     padding: 40px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 16px;
+    margin-left: 7vw;
 }
 .hero-title {
     font-family: var(--font-family-heading);
-    font-size: 3.5rem;
+    font-size: var(--font-size-hero);
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: 20px;
     text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    word-break: keep-all;
 }
 .hero-subtitle {
     font-size: 1.5rem;
@@ -290,11 +316,12 @@ a:hover {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
+    word-break: break-word;
 }
 .feature-card {
     background: #fff;
     padding: 40px;
-    border-radius: 10px;
+    border-radius: var(--box-radius);
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     transition: transform 0.3s, box-shadow 0.3s;
@@ -303,15 +330,12 @@ a:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 40px rgba(0,0,0,0.12);
 }
-.feature-icon {
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin-bottom: 20px;
-}
 .feature-title {
     font-family: var(--font-family-heading);
     font-size: 1.5rem;
     margin-bottom: 15px;
+    word-break: keep-all;
+    white-space: pre-line;
 }
 
 /* --- 実績紹介 --- */
@@ -319,11 +343,15 @@ a:hover {
     background-color: var(--bg-light-gray); 
     padding-bottom: 0; 
 }
+.case-slider-container {
+    width: 100%;
+    margin-bottom: 40px;
+}
 .case-scroll-wrapper {
-    overflow: hidden;
-    white-space: nowrap;
-    margin-bottom: 80px;
-    position: relative;
+    overflow: visible;
+    white-space: normal;
+    margin-bottom: 0;
+    position: static;
 }
 .case-scroll-wrapper:before,
 .case-scroll-wrapper:after {
@@ -343,8 +371,10 @@ a:hover {
     background: linear-gradient(to right, rgba(248, 249, 250, 0), var(--bg-light-gray));
 }
 .case-scroll-slide {
-    display: inline-block;
-    animation: 40s case-slide infinite linear;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    animation: none;
 }
 .case-study {
     display: inline-block;
@@ -459,15 +489,11 @@ a:hover {
     color: var(--primary-color);
     opacity: 0.3;
 }
-.flow-step-icon {
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin: 10px 0;
-}
 .flow-step-title {
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 10px;
+    white-space: nowrap;
 }
 .flow-step-arrow {
     font-size: 2rem;
@@ -546,7 +572,7 @@ a:hover {
 
 /* --- CTAセクション --- */
 .cta-section {
-    background: linear-gradient(45deg, var(--primary-color), #0056b3);
+    background: linear-gradient(90deg, #007bff 0%, #ff7f50 100%);
     color: var(--text-light);
     padding: 80px 0;
     text-align: center;
@@ -603,7 +629,7 @@ a:hover {
 
 /* --- フッター --- */
 .footer {
-    background-color: #222;
+    background: linear-gradient(90deg, #222 0%, #444 100%);
     color: #ccc;
     padding: 40px 0;
 }
@@ -647,6 +673,13 @@ a:hover {
     .features-grid, .pricing-grid {
         grid-template-columns: 1fr;
     }
+    .feature-card {
+        margin-bottom: 20px;
+    }
+    .hero-content {
+        padding: 20px;
+        max-width: 100%;
+    }
     .pricing-card.popular { transform: scale(1); }
     .flow-steps { flex-direction: column; align-items: center; }
     .flow-step { width: 80%; margin-bottom: 30px; }
@@ -655,17 +688,46 @@ a:hover {
 
 @media (max-width: 768px) {
     .section-title, .cta-title { font-size: 2rem; }
-    .hero-title { font-size: 2.8rem; }
-    .hero-subtitle { font-size: 1.2rem; }
+    .hero-title { font-size: 2.2rem; }
+    .hero-subtitle { font-size: 1.1rem; }
     .header-nav { display: none; }
     .hero-achievements, .hero-cta { flex-direction: column; gap: 15px;}
-    .hero-content { padding: 20px; }
+    .hero-content { padding: 10px; margin-left: 0; }
     .hero { justify-content: center; text-align: center; }
     .hero::after { background: linear-gradient(to top, rgba(0, 20, 50, 0.8) 0%, rgba(0, 20, 50, 0.7) 50%, rgba(0, 20, 50, 0.2) 100%);}
     .hero-achievements, .hero-cta { align-items: center; }
     .slider-btn { display: none; }
+    .feature-title { font-size: 1.2rem; }
+    .case-scroll-slide {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
 }
 
 @media (max-width: 480px) {
     .case-study { width: 300px; }
+    .contact-form {
+        padding: 10px;
+    }
+    .btn, .btn-primary, .btn-secondary, .btn-submit {
+        padding: 8px 8px;
+        font-size: 0.95rem;
+    }
+    .form-group input, .form-group textarea {
+        padding: 6px;
+        font-size: 0.9rem;
+    }
+    .footer-content {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+    .features-grid {
+        gap: 15px;
+    }
 }
+
+/* TODO: 本番運用時はJPG/PNG画像をWebP形式や圧縮画像に置き換えてパフォーマンスを向上させてください。仮画像や外部サービスの画像は除外。*/
+/*
+ * 本番環境ではstyle.cssやscript.jsをminify（圧縮）し、CDN経由で配信することでパフォーマンスをさらに向上できます。
+ */

@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
+    initHeaderScroll();
+    initScrollAnimation();
+    initCaseSlider();
+    initContactForm();
+});
 
-    // --- ヘッダーのスクロール処理 ---
+function initHeaderScroll() {
     const header = document.querySelector('.header');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
@@ -9,8 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
             header.classList.remove('scrolled');
         }
     });
+}
 
-    // --- スクロールに応じたアニメーション ---
+function initScrollAnimation() {
     const targets = document.querySelectorAll('.animate-on-scroll');
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -26,26 +32,71 @@ document.addEventListener('DOMContentLoaded', function() {
     targets.forEach(target => {
         observer.observe(target);
     });
+}
 
-    // --- 成功事例スライダー ---
+function initCaseSlider() {
     const slider = document.querySelector('.case-scroll-wrapper');
     const prevBtn = document.querySelector('.prev-btn');
     const nextBtn = document.querySelector('.next-btn');
-    const slide = document.querySelector('.case-study');
+    const slides = document.querySelectorAll('.case-study');
+    if (slider && prevBtn && nextBtn && slides.length > 0) {
+        const slideWidth = slides[0].offsetWidth + 40; // 40はmargin
+        let autoScrollInterval;
+        let isHovered = false;
 
-    if (slider && prevBtn && nextBtn && slide) {
-        const slideWidth = slide.offsetWidth + 40; // 40はmargin
+        function scrollNext() {
+            if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth - 1) {
+                slider.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                slider.scrollBy({ left: slideWidth, behavior: 'smooth' });
+            }
+        }
+        function scrollPrev() {
+            if (slider.scrollLeft === 0) {
+                slider.scrollTo({ left: slider.scrollWidth, behavior: 'smooth' });
+            } else {
+                slider.scrollBy({ left: -slideWidth, behavior: 'smooth' });
+            }
+        }
+        nextBtn.addEventListener('click', scrollNext);
+        prevBtn.addEventListener('click', scrollPrev);
 
-        nextBtn.addEventListener('click', () => {
-            slider.scrollBy({ left: slideWidth, behavior: 'smooth' });
+        // 自動スクロール
+        function startAutoScroll() {
+            autoScrollInterval = setInterval(() => {
+                if (!isHovered) scrollNext();
+            }, 4000);
+        }
+        function stopAutoScroll() {
+            clearInterval(autoScrollInterval);
+        }
+        slider.addEventListener('mouseenter', () => { isHovered = true; });
+        slider.addEventListener('mouseleave', () => { isHovered = false; });
+        startAutoScroll();
+
+        // スワイプ対応
+        let startX = 0;
+        let isDown = false;
+        slider.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].clientX;
         });
-
-        prevBtn.addEventListener('click', () => {
-            slider.scrollBy({ left: -slideWidth, behavior: 'smooth' });
+        slider.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            let moveX = e.touches[0].clientX;
+            if (moveX - startX > 50) {
+                scrollPrev();
+                isDown = false;
+            } else if (startX - moveX > 50) {
+                scrollNext();
+                isDown = false;
+            }
         });
+        slider.addEventListener('touchend', () => { isDown = false; });
     }
+}
 
-    // --- フォーム送信のダミー処理 ---
+function initContactForm() {
     const form = document.querySelector('.contact-form');
     if (form) {
         form.addEventListener('submit', function(e) {
@@ -54,4 +105,4 @@ document.addEventListener('DOMContentLoaded', function() {
             form.reset();
         });
     }
-});
+}
